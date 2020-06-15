@@ -1,30 +1,43 @@
 // write your custom hook here to control your checkout form
+import  React, {useState} from "react";
 
 import { useLocalStorage } from "./useLocalStorage";
 
-    export const useForm = {key, initialValues, cb } => {
+    export const useForm = ( initialValues ) => {
 
-        const [setValues, values] = useLocalStorage(key,initialValues);
+            const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+            const [values, setValues] = useState(initialValues);
 
-        const handleChanges = e => {
-            console.log(e.target.name);
-            setValues({
-                ...values,
-                [e.target.name]: e.target.values
-        })
-    }
+            const handleSubmit = (e) => {
+                 e.preventDefault();
+                 setShowSuccessMessage(true);
+             }; 
 
-        const handleSubmit = e => {
+            const handleChanges = (e) => {
+                setValues({ ...values, [e.target.name]: e.target.value });
+            };
 
-            if(e) e.preventDefault();
-            cb();
-        };
+        /* const [setValues, values] = useLocalStorage(key,initialValues);
 
-        const clearForm = e => {
-            e.preventDefault();
-            setValues(initialValues);
-        }
+         * const handleChanges = e => {
+         *     console.log(e.target.name);
+         *     setValues({
+         *         ...values,
+         *         [e.target.name]: e.target.values
+         * })
+           }
 
-        return [ values, clearForm, handleSubmit, handleChanges ]
+         * const handleSubmit = e => {
+
+         *     if(e) e.preventDefault();
+         *     cb();
+         * };
+
+         * const clearForm = e => {
+         *     e.preventDefault();
+         *     setValues(initialValues);
+         * } */
+
+        return [ values, showSuccessMessage, handleSubmit, handleChanges ]
 
 }
